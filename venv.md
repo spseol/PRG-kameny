@@ -1,5 +1,6 @@
 # Virtuální prostředí
---------------------
+
+
 Pro správu závislostí vašeho projektu používejte 
 [virtuální prostředí](https://docs.python.org/3/tutorial/venv.html)
 a
