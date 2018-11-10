@@ -12,57 +12,51 @@ window = pyglet.window.Window(1000, 800)
 batch = pyglet.graphics.Batch()   # pro optimalizované vyreslování objektů
 
 
-def sprite_proxy(attr: str):
-    def set_(self, new):
-        setattr(self.sprite, attr, new)
-
-    def get_(self):
-        return getattr(self.sprite, attr)
-
-    return property(fget=get_, fset=set_)
-
-
 class Stone(object):
-    x = sprite_proxy('x')
-    y = sprite_proxy('y')
 
     def __init__(self,
                  x=None, y=None,
                  direction=None,
                  speed=None, rspeed=None):
 
-        'nečtu obrázek'
+        # nečtu obrázek
         num = random.choice(range(0, 20))
         self.image = pyglet.image.load('meteors/{}.png'.format(num))
-        'střed otáčení dám na střed obrázku'
+        # střed otáčení dám na střed obrázku
         self.image.anchor_x = self.image.width // 2
         self.image.anchor_y = self.image.height // 2
-        'z obrázku vytvořím sprite'
+        # z obrázku vytvořím sprite
         self.sprite = pyglet.sprite.Sprite(self.image, batch=batch)
 
-        'pokud není atribut zadán vytvořím ho náhodně'
+        # pokud není atribut zadán vytvořím ho náhodně
         self.x = x if x is not None else random.randint(0, window.width)
         self.y = y if y is not None else random.randint(0, window.height)
+        # musím správně nastavit polohu sprite
+        self.sprite.x = self.x
+        self.sprite.y = self.y
 
         self.direction = direction \
             if direction is not None else random.randint(0, 359)
-        'rychlost pohybu'
+        # rychlost pohybu
         self.speed = speed \
             if speed is not None else random.randint(30, 180)
-        'rychlost otáčení'
+        # rychlost otáčení
         self.rspeed = rspeed \
             if rspeed is not None else random.randint(-100, 100)
 
     def tick(self, dt):
         self.bounce()
-        'do promenne dt se uloží doba od posledního tiknutí'
+
+        # do promenne dt se uloží doba od posledního tiknutí
         self.x += dt * self.speed * cos(pi / 2 - radians(self.direction))
+        self.sprite.x = self.x
         self.y += dt * self.speed * sin(pi / 2 - radians(self.direction))
+        self.sprite.y = self.y
         self.sprite.rotation += 0.01 * self.rspeed
 
     def bounce(self):
 
-        'vzdálenost okraje a středu'
+        # vzdálenost okraje a středu
         rozmer = min(self.image.width, self.image.height)/2
 
         if self.x + rozmer >= window.width:
@@ -82,7 +76,6 @@ class Stone(object):
 stones = []
 for i in range(30):
     stone = Stone()
-    stone.y = 400
     pyglet.clock.schedule_interval(stone.tick, 1 / 30)
     stones.append(stone)
 
