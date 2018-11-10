@@ -60,7 +60,7 @@ První možnost jak to celé napsat je použít
 `@property`.
 
 Řešení najdete v souboru [kameny-property.py](kameny-property.py)
-c66e72759c7e8135347f045e17c6375b0455b857
+[c66e727](https://github.com/spseol/PRG-kameny/commit/c66e72759c7e8135347f045e17c6375b0455b857)
 
 Dalším řešením je použít vestavěných funkcí
 [`setattr`](https://docs.python.org/3/library/functions.html?highlight=property#setattr),
@@ -69,4 +69,4 @@ a [`property`](https://docs.python.org/3/library/functions.html?highlight=proper
 Děje se de-facto to stejné jako v předchozím případě, jen je to trochu jinak zapsané.
 
 Řešení je v souboru [kameny-property_proxy.py](kameny-property_proxy.py)
-d7641a35909a0b891624327dbef12ba8867d975a
+[d7641a3](https://github.com/spseol/PRG-kameny/commit/d7641a35909a0b891624327dbef12ba8867d975a)
