@@ -54,3 +54,19 @@ Stejné je to se `Stone.sprite.y` a `Stone.y`.
 Z atributu tedy uděláme *vlastnost* --
 [*property*](https://docs.python.org/3/library/functions.html?highlight=property#property)
 a můžeme její čtení nebo zápis (nebo mazání) svázat s libovolnou další akcí.
+
+První možnost jak to celé napsat je použít 
+[decorator](https://docs.python-guide.org/writing/structure/#decorators)
+`@property`.
+
+Řešení najdete v souboru [kameny-property.py](kameny-property.py)
+c66e72759c7e8135347f045e17c6375b0455b857
+
+Dalším řešením je použít vestavěných funkcí
+[`setattr`](https://docs.python.org/3/library/functions.html?highlight=property#setattr),
+[`getattr`](https://docs.python.org/3/library/functions.html?highlight=property#getattr)
+a [`property`](https://docs.python.org/3/library/functions.html?highlight=property#property).
+Děje se de-facto to stejné jako v předchozím případě, jen je to trochu jinak zapsané.
+
+Řešení je v souboru [kameny-property_proxy.py](kameny-property_proxy.py)
+d7641a35909a0b891624327dbef12ba8867d975a
