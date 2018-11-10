@@ -12,7 +12,19 @@ window = pyglet.window.Window(1000, 800)
 batch = pyglet.graphics.Batch()   # pro optimalizované vyreslování objektů
 
 
+def sprite_proxy(attr: str):
+    def set_(self, new):
+        setattr(self.sprite, attr, new)
+
+    def get_(self):
+        return getattr(self.sprite, attr)
+
+    return property(fget=get_, fset=set_)
+
+
 class Stone(object):
+    x = sprite_proxy('x')
+    y = sprite_proxy('y')
 
     def __init__(self,
                  x=None, y=None,
@@ -32,8 +44,6 @@ class Stone(object):
         self.x = x if x is not None else random.randint(0, window.width)
         self.y = y if y is not None else random.randint(0, window.height)
         # musím správně nastavit polohu sprite
-        self.sprite.x = self.x
-        self.sprite.y = self.y
 
         self.direction = direction \
             if direction is not None else random.randint(0, 359)
@@ -76,6 +86,7 @@ class Stone(object):
 stones = []
 for i in range(30):
     stone = Stone()
+    stone.y = 400
     pyglet.clock.schedule_interval(stone.tick, 1 / 30)
     stones.append(stone)
 
