@@ -29,11 +29,11 @@ class Stone(object):
         self.sprite = pyglet.sprite.Sprite(self.image, batch=batch)
 
         # pokud není atribut zadán vytvořím ho náhodně
-        self.x = x if x is not None else random.randint(0, window.width)
-        self.y = y if y is not None else random.randint(0, window.height)
+        self._x = x if x is not None else random.randint(0, window.width)
+        self._y = y if y is not None else random.randint(0, window.height)
         # musím správně nastavit polohu sprite
-        self.sprite.x = self.x
-        self.sprite.y = self.y
+        self.x = self._x
+        self.y = self._y
 
         self.direction = direction \
             if direction is not None else random.randint(0, 359)
@@ -43,6 +43,22 @@ class Stone(object):
         # rychlost otáčení
         self.rspeed = rspeed \
             if rspeed is not None else random.randint(-100, 100)
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, new):
+        self._x = self.sprite.x = new
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, new):
+        self._y = self.sprite.y = new
 
     def tick(self, dt):
         self.bounce()
@@ -76,6 +92,7 @@ class Stone(object):
 stones = []
 for i in range(30):
     stone = Stone()
+    stone.x = 500
     pyglet.clock.schedule_interval(stone.tick, 1 / 30)
     stones.append(stone)
 
