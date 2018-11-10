@@ -51,5 +51,6 @@ bychom potřebovali nějak svázat `Stone.sprite.x` i `Stone.x`.
 
 Stejné je to se `Stone.sprite.y` a `Stone.y`.
 
-Z atributu tedy uděláme *vlastnost* (*property*)a pomocí dekorátoru `@property`
-můžeme jeho čtení nebo zápis svázat s libovolnou další akcí.
+Z atributu tedy uděláme *vlastnost* --
+[*property*](https://docs.python.org/3/library/functions.html?highlight=property#property)
+a můžeme její čtení nebo zápis (nebo mazání) svázat s libovolnou další akcí.

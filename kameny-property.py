@@ -18,17 +18,6 @@ class Stone(object):
                  x=None, y=None,
                  direction=None,
                  speed=None, rspeed=None):
-        'pokud není atribut zadán vytvořím ho náhodně'
-        self.x = x if x is not None else random.randint(0, window.width)
-        self.y = y if y is not None else random.randint(0, window.height)
-        self.direction = direction \
-            if direction is not None else random.randint(0, 359)
-        'rychlost pohybu'
-        self.speed = speed \
-            if speed is not None else random.randint(30, 180)
-        'rychlost otáčení'
-        self.rspeed = rspeed \
-            if rspeed is not None else random.randint(-100, 100)
 
         'nečtu obrázek'
         num = random.choice(range(0, 20))
@@ -39,16 +28,44 @@ class Stone(object):
         'z obrázku vytvořím sprite'
         self.sprite = pyglet.sprite.Sprite(self.image, batch=batch)
         'správně nastavím souřednice sprite'
-        self.sprite.x = self.x
-        self.sprite.y = self.y
+
+        'pokud není atribut zadán vytvořím ho náhodně'
+        self._x = x if x is not None else random.randint(0, window.width)
+        self._y = y if y is not None else random.randint(0, window.height)
+
+        self.x = self._x
+        self.y = self._y
+
+        self.direction = direction \
+            if direction is not None else random.randint(0, 359)
+        'rychlost pohybu'
+        self.speed = speed \
+            if speed is not None else random.randint(30, 180)
+        'rychlost otáčení'
+        self.rspeed = rspeed \
+            if rspeed is not None else random.randint(-100, 100)
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, new):
+        self._x = self.sprite.x = new
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, new):
+        self._y = self.sprite.y = new
 
     def tick(self, dt):
         self.bounce()
         'do promenne dt se uloží doba od posledního tiknutí'
         self.x += dt * self.speed * cos(pi / 2 - radians(self.direction))
-        self.sprite.x = self.x
         self.y += dt * self.speed * sin(pi / 2 - radians(self.direction))
-        self.sprite.y = self.y
         self.sprite.rotation += 0.01 * self.rspeed
 
     def bounce(self):
@@ -73,6 +90,7 @@ class Stone(object):
 stones = []
 for i in range(30):
     stone = Stone()
+    stone.x = 500
     pyglet.clock.schedule_interval(stone.tick, 1 / 30)
     stones.append(stone)
 
